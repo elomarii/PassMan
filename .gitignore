@@ -1,0 +1,8 @@
+.dart_tool
+.gradle
+.vscode
+build
+README.md
+pubspec.lock
+.flutter-plugins*
+
