@@ -13,6 +13,13 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return AppScaffold(
       bgColor: AppColors.second,
+      fab: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: AppColors.first,
+        focusColor: AppColors.third,
+        splashColor: AppColors.fourth,
+        child: const Text("add"),
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.first,
@@ -26,13 +33,37 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
-      body: const Column(
-        children: [
-          SizedBox(height: 20),
-          PasswordCard(title: "Facebook", value: "abcd123564"),
-          SizedBox(height: 10),
-          PasswordCard(title: "Twitter", value: "xyz@154hihi"),
-        ],
+      body: Obx(
+        () => controller.loading.value
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Text(
+                  "loading...",
+                  style: TextStyle(color: AppColors.fifth),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : controller.passwords.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Text(
+                      "no passwords yet",
+                      style: TextStyle(color: AppColors.fifth),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    itemBuilder: (_, index) => PasswordCard(
+                        title: controller.passwords[index]["title"],
+                        value: controller.passwords[index]["value"]),
+                    separatorBuilder: (_, __) => const SizedBox(
+                      height: 12,
+                    ),
+                    itemCount: controller.passwords.length,
+                  ),
       ),
     );
   }
@@ -96,7 +127,15 @@ class _PasswordCardState extends State<PasswordCard> {
               isShown ? Icons.password : Icons.abc,
               color: AppColors.fourth,
             ),
-          )
+          ),
+          const SizedBox(width: 15),
+          InkWell(
+            onTap: () {},
+            child: Icon(
+              Icons.edit_note,
+              color: AppColors.fourth,
+            ),
+          ),
         ],
       ),
     );
