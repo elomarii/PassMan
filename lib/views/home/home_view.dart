@@ -1,4 +1,5 @@
 import 'package:PassMan/constants/colors.dart';
+import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/views/home/home_controller.dart';
 import 'package:PassMan/widgets/app_scaffold.dart';
 import 'package:cryptography/helpers.dart';
@@ -14,7 +15,7 @@ class HomeView extends GetView<HomeController> {
     return AppScaffold(
       bgColor: AppColors.second,
       fab: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Get.toNamed(AppRoutes.password, arguments: null),
         backgroundColor: AppColors.first,
         focusColor: AppColors.third,
         splashColor: AppColors.fourth,
@@ -57,7 +58,8 @@ class HomeView extends GetView<HomeController> {
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     itemBuilder: (_, index) => PasswordCard(
-                        title: controller.passwords[index]["title"],
+                        id: controller.passwords[index]["id"],
+                        platform: controller.passwords[index]["platform"],
                         value: controller.passwords[index]["value"]),
                     separatorBuilder: (_, __) => const SizedBox(
                       height: 12,
@@ -70,9 +72,14 @@ class HomeView extends GetView<HomeController> {
 }
 
 class PasswordCard extends StatefulWidget {
-  const PasswordCard({super.key, required this.title, required this.value});
+  const PasswordCard(
+      {super.key,
+      required this.platform,
+      required this.value,
+      required this.id});
 
-  final String title;
+  final int id;
+  final String platform;
   final String value;
 
   @override
@@ -93,18 +100,15 @@ class _PasswordCardState extends State<PasswordCard> {
         children: [
           Expanded(
             child: InkWell(
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: widget.value));
-                Get.showSnackbar(GetSnackBar(
-                  message: "${widget.title}'s password was copied!",
-                  duration: const Duration(seconds: 2),
-                ));
-              },
+              onTap: () => Get.toNamed(
+                AppRoutes.password,
+                arguments: [widget.id, widget.platform, widget.value],
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    widget.platform,
                     style: TextStyle(
                         color: AppColors.fifth,
                         fontSize: 16,
@@ -124,15 +128,21 @@ class _PasswordCardState extends State<PasswordCard> {
               isShown = !isShown;
             }),
             child: Icon(
-              isShown ? Icons.password : Icons.abc,
+              isShown ? Icons.lock_open : Icons.lock,
               color: AppColors.fourth,
             ),
           ),
           const SizedBox(width: 15),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Clipboard.setData(ClipboardData(text: widget.value));
+              Get.showSnackbar(GetSnackBar(
+                message: "${widget.platform}'s password was copied!",
+                duration: const Duration(seconds: 2),
+              ));
+            },
             child: Icon(
-              Icons.edit_note,
+              Icons.copy,
               color: AppColors.fourth,
             ),
           ),

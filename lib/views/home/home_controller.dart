@@ -1,4 +1,5 @@
 import 'package:PassMan/constants/globals.dart';
+import 'package:PassMan/utility.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -12,8 +13,17 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadPasswords() async {
-    passwords = await passmanDb.query(passwordsTable);
-    print(passwords);
+    loading.value = true;
+    await passmanDb.query(passwordsTable).then((response) async {
+      for (int i = 0; i < response.length; i++) {
+        String decryption = await decrypt(response[i]["value"] as String);
+        passwords.add({
+          "id": response[i]["id"],
+          "platform": response[i]["platform"],
+          "value": decryption
+        });
+      }
+    });
     loading.value = false;
   }
 }
