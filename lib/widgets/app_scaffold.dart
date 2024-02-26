@@ -9,12 +9,14 @@ class AppScaffold extends StatelessWidget {
     this.horizontalPadding = 15,
     this.bgColor,
     this.fab,
+    this.scrollable = true,
   });
   final Widget body;
   final PreferredSizeWidget? appBar;
   final double horizontalPadding;
   final Color? bgColor;
   final Widget? fab;
+  final bool scrollable;
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +30,26 @@ class AppScaffold extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: ConstrainedBox(
           constraints: const BoxConstraints.expand(),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.only(
-                right: horizontalPadding,
-                left: horizontalPadding,
-                top: appBar == null ? 25 : 0,
-              ),
-              child: body,
-            ),
-          ),
+          child: scrollable
+              ? SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      right: horizontalPadding,
+                      left: horizontalPadding,
+                      top: appBar == null ? 25 : 0,
+                    ),
+                    child: body,
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.only(
+                    right: horizontalPadding,
+                    left: horizontalPadding,
+                    top: appBar == null ? 25 : 0,
+                  ),
+                  child: body,
+                ),
         ),
       ),
     );

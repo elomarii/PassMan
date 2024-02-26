@@ -10,6 +10,7 @@ class AuthenticateView extends GetView<AuthenticateController> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      scrollable: false,
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -46,7 +47,13 @@ class AuthenticateView extends GetView<AuthenticateController> {
                       border: InputBorder.none,
                     ),
                   ),
-          )
+          ),
+          const Spacer(),
+          Text(
+            "© github/elomarii",
+            style: TextStyle(color: AppColors.fourth),
+          ),
+          const SizedBox(height: 15),
         ],
       ),
     );

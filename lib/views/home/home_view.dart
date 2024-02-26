@@ -57,14 +57,17 @@ class HomeView extends GetView<HomeController> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    itemBuilder: (_, index) => PasswordCard(
-                        id: controller.passwords[index]["id"],
-                        platform: controller.passwords[index]["platform"],
-                        value: controller.passwords[index]["value"]),
+                    itemBuilder: (_, index) => index ==
+                            controller.passwords.length
+                        ? const SizedBox(height: 60)
+                        : PasswordCard(
+                            id: controller.passwords[index]["id"],
+                            platform: controller.passwords[index]["platform"],
+                            value: controller.passwords[index]["value"]),
                     separatorBuilder: (_, __) => const SizedBox(
                       height: 12,
                     ),
-                    itemCount: controller.passwords.length,
+                    itemCount: controller.passwords.length + 1,
                   ),
       ),
     );
