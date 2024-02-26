@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/constants/globals.dart';
 import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hex/hex.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AuthenticateController extends GetxController {
@@ -16,8 +19,9 @@ class AuthenticateController extends GetxController {
     String path = await getDatabasesPath();
     passmanDb = await initPassmanDb(path);
 
-    // for debug, to be removed in prod
+    // for dev, clean the database when reload
     // passmanDb.delete(passphrasesTable);
+    // passmanDb.delete(passwordsTable);
 
     List<Map> passphrases =
         await passmanDb.rawQuery('SELECT * FROM $passphrasesTable');
@@ -48,7 +52,7 @@ class AuthenticateController extends GetxController {
     if (isPassphraseSet) {
       if (hashed == passphraseHash) {
         printInfo(info: "Hashes match");
-        passphrase = value;
+        passphrase = HEX.encode(utf8.encode(value));
         Get.offAllNamed(AppRoutes.home);
       } else {
         showDialog(
@@ -65,7 +69,7 @@ class AuthenticateController extends GetxController {
       }
     } else {
       printInfo(info: "New passphrase setup");
-      passphrase = value;
+      passphrase = HEX.encode(utf8.encode(value));
       await passmanDb.rawInsert(
           'INSERT INTO $passphrasesTable(id, hash) VALUES(1, "$hashed")');
       Get.offAllNamed(AppRoutes.home);
