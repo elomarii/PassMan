@@ -1,5 +1,6 @@
 import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/views/password/password_controller.dart';
+import 'package:PassMan/widgets/app_bar.dart';
 import 'package:PassMan/widgets/app_scaffold.dart';
 import 'package:PassMan/widgets/button.dart';
 import 'package:PassMan/widgets/text_field.dart';
@@ -13,19 +14,7 @@ class PasswordView extends GetView<PasswordController> {
   Widget build(BuildContext context) {
     return AppScaffold(
       bgColor: AppColors.second,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.first,
-        elevation: 2,
-        title: Text(
-          "Add/Edit a password",
-          style: TextStyle(
-            color: AppColors.fifth,
-            fontSize: 19,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const PassBar(),
       body: Form(
         key: controller.form,
         child: Column(

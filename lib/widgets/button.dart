@@ -15,27 +15,29 @@ class _ButtonState extends State<Button> {
   bool processing = false;
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () async {
-        setState(() {
-          processing = true;
-        });
-        await widget.onPressed();
-        setState(() {
-          processing = false;
-        });
-      },
-      style: ButtonStyle(
-        enableFeedback: true,
-        backgroundColor:
-            MaterialStateColor.resolveWith((states) => AppColors.first),
-      ),
-      child: SizedBox(
-        width: 100,
-        child: Text(
-          processing ? "..." : widget.title,
-          style: TextStyle(color: AppColors.fifth, fontSize: 16),
-          textAlign: TextAlign.center,
+    return Container(
+      width: 100,
+      color: AppColors.first,
+      alignment: Alignment.center,
+      child: InkWell(
+        onTap: processing
+            ? null
+            : () async {
+                setState(() {
+                  processing = true;
+                });
+                await widget.onPressed();
+                setState(() {
+                  processing = false;
+                });
+              },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            processing ? "..." : widget.title,
+            style: TextStyle(color: AppColors.fifth, fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

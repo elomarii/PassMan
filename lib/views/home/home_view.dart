@@ -1,6 +1,7 @@
 import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/views/home/home_controller.dart';
+import 'package:PassMan/widgets/app_bar.dart';
 import 'package:PassMan/widgets/app_scaffold.dart';
 import 'package:cryptography/helpers.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +22,7 @@ class HomeView extends GetView<HomeController> {
         splashColor: AppColors.fourth,
         child: const Text("add"),
       ),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.first,
-        elevation: 2,
-        title: Text(
-          "PassMan",
-          style: TextStyle(
-            color: AppColors.fifth,
-            fontSize: 19,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const PassBar(),
       body: Obx(
         () => controller.loading.value
             ? Padding(
