@@ -23,25 +23,27 @@ Future<String> computeHash(String value) async {
   return hex(hashBytes);
 }
 
-Future<String> encrypt(String value) async {
+Future<String> encrypt(String value, {String? secret}) async {
+  secret = secret ?? passphrase!;
   SecretBox encryption = await algorithm.encrypt(
     utf8.encode(value),
-    secretKey: SecretKey(
-        HEX.decode(passphrase!) + List.filled(32 - passphrase!.length ~/ 2, 0)),
+    secretKey:
+        SecretKey(HEX.decode(secret) + List.filled(32 - secret.length ~/ 2, 0)),
     nonce: auxilaryNonce,
   );
   return HEX.encode(encryption.concatenation());
 }
 
-Future<String> decrypt(String value) async {
+Future<String> decrypt(String value, {String? secret}) async {
+  secret = secret ?? passphrase!;
   Uint8List encrypted = Uint8List.fromList(HEX.decode(value));
   SecretBox box = SecretBox.fromConcatenation(encrypted,
       macLength: algorithm.macAlgorithm.macLength,
       nonceLength: auxilaryNonce.length);
   List<int> decrypted = await algorithm.decrypt(
     box,
-    secretKey: SecretKey(
-        HEX.decode(passphrase!) + List.filled(32 - passphrase!.length ~/ 2, 0)),
+    secretKey:
+        SecretKey(HEX.decode(secret) + List.filled(32 - secret.length ~/ 2, 0)),
   );
   return utf8.decode(decrypted);
 }
