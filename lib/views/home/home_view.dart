@@ -15,12 +15,26 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return AppScaffold(
       bgColor: AppColors.second,
-      fab: FloatingActionButton(
-        onPressed: () => Get.toNamed(AppRoutes.password, arguments: null),
-        backgroundColor: AppColors.first,
-        focusColor: AppColors.third,
-        splashColor: AppColors.fourth,
-        child: const Text("add"),
+      fab: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton(
+            onPressed: () => Get.toNamed(AppRoutes.password, arguments: null),
+            backgroundColor: AppColors.first,
+            focusColor: AppColors.third,
+            splashColor: AppColors.fourth,
+            child: const Text("add"),
+          ),
+          const SizedBox(width: 4),
+          FloatingActionButton(
+            heroTag: "__",
+            onPressed: () => Get.toNamed(AppRoutes.passphrase),
+            backgroundColor: AppColors.first,
+            focusColor: AppColors.third,
+            splashColor: AppColors.fourth,
+            child: Icon(Icons.memory, size: 30, color: AppColors.fifth),
+          ),
+        ],
       ),
       appBar: const PassBar(),
       body: Obx(
