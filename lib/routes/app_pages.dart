@@ -2,6 +2,7 @@ import 'package:PassMan/routes/app_bindings.dart';
 import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/views/authenticate/authenticate_view.dart';
 import 'package:PassMan/views/home/home_view.dart';
+import 'package:PassMan/views/passphrase/passphrase_view.dart';
 import 'package:PassMan/views/password/password_view.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,11 @@ class AppPages {
       name: AppRoutes.password,
       page: () => const PasswordView(),
       binding: PasswordBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.passphrase,
+      page: () => const PassphraseView(),
+      binding: PassphraseBinding(),
     ),
   ];
 }
