@@ -26,6 +26,7 @@ class AppTextField extends StatelessWidget {
       },
       controller: controller,
       onFieldSubmitted: onSubmit,
+      textInputAction: TextInputAction.next,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       obscureText: obscured,
       style: TextStyle(color: AppColors.white),

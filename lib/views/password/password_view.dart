@@ -36,6 +36,7 @@ class PasswordView extends GetView<PasswordController> {
               title: "save",
               onPressed: controller.savePassword,
             ),
+            const SizedBox(height: 10),
             Visibility(
               visible: controller.passId != null,
               child: Button(
