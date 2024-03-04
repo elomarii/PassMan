@@ -14,7 +14,7 @@ class PassphraseView extends GetView<PassphraseController> {
   Widget build(BuildContext context) {
     return AppScaffold(
       bgColor: AppColors.second,
-      appBar: const PassBar(),
+      appBar: const PassBar(title: "passphrase"),
       body: Column(
         children: [
           const SizedBox(height: 20),

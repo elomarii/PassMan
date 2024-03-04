@@ -14,7 +14,7 @@ class PasswordView extends GetView<PasswordController> {
   Widget build(BuildContext context) {
     return AppScaffold(
       bgColor: AppColors.second,
-      appBar: const PassBar(),
+      appBar: const PassBar(title: "password"),
       body: Form(
         key: controller.form,
         child: Column(
