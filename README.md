@@ -14,6 +14,9 @@ This ensures that only authorized users can access the stored passwords.
 PassMan employs AES-256 encryption in GCM (Galois/Counter Mode) to encrypt and protect user data.
 This encryption scheme is widely recognized for its strength and security, providing robust protection for stored passwords and information.
 
+### Currently working on
+- [ ] Import/export encryption files
+
 ---
 
 **Note**: PassMan is a personal project for educational and demonstration purposes only.
