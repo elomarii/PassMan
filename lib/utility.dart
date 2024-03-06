@@ -14,32 +14,32 @@ Future<String> computeHash(String value) async {
     hashLength: 128,
   );
 
-  final secretKey = await algorithm.deriveKeyFromPassword(
+  final hash = await algorithm.deriveKeyFromPassword(
     password: value,
-    nonce: auxilaryNonce,
+    nonce: HEX.decode(hashSalt),
   );
 
-  final hashBytes = await secretKey.extractBytes();
+  final hashBytes = await hash.extractBytes();
   return hex(hashBytes);
 }
 
-Future<String> encrypt(String value, {String? secret}) async {
+Future<String> encrypt(String value, String salt, {String? secret}) async {
   secret = secret ?? passphrase!;
   SecretBox encryption = await algorithm.encrypt(
     utf8.encode(value),
     secretKey:
         SecretKey(HEX.decode(secret) + List.filled(32 - secret.length ~/ 2, 0)),
-    nonce: auxilaryNonce,
+    nonce: HEX.decode(salt),
   );
   return HEX.encode(encryption.concatenation());
 }
 
-Future<String> decrypt(String value, {String? secret}) async {
+Future<String> decrypt(String value, String salt, {String? secret}) async {
   secret = secret ?? passphrase!;
   Uint8List encrypted = Uint8List.fromList(HEX.decode(value));
   SecretBox box = SecretBox.fromConcatenation(encrypted,
       macLength: algorithm.macAlgorithm.macLength,
-      nonceLength: auxilaryNonce.length);
+      nonceLength: HEX.decode(salt).length);
   List<int> decrypted = await algorithm.decrypt(
     box,
     secretKey:

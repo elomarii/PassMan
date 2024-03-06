@@ -39,11 +39,18 @@ class PassphraseController extends GetxController {
   Future<void> encryptAll(String old) async {
     await passmanDb.query(passwordsTable).then((response) async {
       for (int i = 0; i < response.length; i++) {
-        String decryption =
-            await decrypt(response[i]["value"] as String, secret: old);
-        String encryption = await encrypt(decryption);
-        await passmanDb.update(passwordsTable, {"value": encryption},
-            where: "id = ${response[i]["id"]}");
+        String decryption = await decrypt(
+          response[i]["value"] as String,
+          response[i]["salt"] as String,
+          secret: old,
+        );
+        String encryption =
+            await encrypt(decryption, response[i]["salt"] as String);
+        await passmanDb.update(
+          passwordsTable,
+          {"value": encryption},
+          where: "id = ${response[i]["id"]}",
+        );
       }
     });
   }

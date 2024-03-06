@@ -16,7 +16,10 @@ class HomeController extends GetxController {
     loading.value = true;
     await passmanDb.query(passwordsTable).then((response) async {
       for (int i = 0; i < response.length; i++) {
-        String decryption = await decrypt(response[i]["value"] as String);
+        String decryption = await decrypt(
+          response[i]["value"] as String,
+          response[i]["salt"] as String,
+        );
         passwords.add({
           "id": response[i]["id"],
           "platform": response[i]["platform"],

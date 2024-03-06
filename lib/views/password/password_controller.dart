@@ -1,6 +1,7 @@
 import 'package:PassMan/constants/globals.dart';
 import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/utility.dart';
+import 'package:cryptography/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,18 +23,19 @@ class PasswordController extends GetxController {
 
   Future<void> savePassword() async {
     if (!form.currentState!.validate()) return;
-    String encryption = await encrypt(value.text);
+    String salt = randomBytesAsHexString(12);
+    String encryption = await encrypt(value.text, salt);
     if (passId != null) {
       await passmanDb.update(
         passwordsTable,
-        {"platform": platform.text.trim(), "value": encryption},
+        {"platform": platform.text.trim(), "value": encryption, "salt": salt},
         where: "id = ?",
         whereArgs: [passId],
       );
     } else {
       await passmanDb.insert(
         passwordsTable,
-        {"platform": platform.text.trim(), "value": encryption},
+        {"platform": platform.text.trim(), "value": encryption, "salt": salt},
       );
     }
     Get.offAllNamed(AppRoutes.home);

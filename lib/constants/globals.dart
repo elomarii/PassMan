@@ -12,4 +12,4 @@ String? passphraseHash;
 
 // Cryptography related declarations
 AesGcm algorithm = AesGcm.with256bits();
-const List<int> auxilaryNonce = [0, 1, 2, 3, 4];
+const String hashSalt = "a1b2c3d4";

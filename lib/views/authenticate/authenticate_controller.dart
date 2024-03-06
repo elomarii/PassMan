@@ -38,11 +38,11 @@ class AuthenticateController extends GetxController {
     return await openDatabase(
       databasesPath + passmanPath,
       version: 1,
-      onCreate: (db, version) async {
+      onCreate: (db, _) async {
         await db.execute(
             "CREATE TABLE $passphrasesTable (id INTEGER PRIMARY KEY, hash TEXT NOT NULL)");
         await db.execute(
-            "CREATE TABLE $passwordsTable (id INTEGER PRIMARY KEY, platform TEXT NOT NULL, value TEXT NOT NULL)");
+            "CREATE TABLE $passwordsTable (id INTEGER PRIMARY KEY, platform TEXT NOT NULL, value TEXT NOT NULL, salt TEXT NOT NULL)");
       },
     );
   }
