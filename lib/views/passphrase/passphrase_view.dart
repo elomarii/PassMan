@@ -14,7 +14,7 @@ class PassphraseView extends GetView<PassphraseController> {
   Widget build(BuildContext context) {
     return AppScaffold(
       bgColor: AppColors.second,
-      appBar: const PassBar(title: "passphrase"),
+      appBar: const PassBar(title: "config"),
       body: Column(
         children: [
           const SizedBox(height: 20),
@@ -30,7 +30,14 @@ class PassphraseView extends GetView<PassphraseController> {
             label: "new passphrase",
           ),
           const SizedBox(height: 20),
-          Button(title: "save", onPressed: controller.changePassphrase)
+          Button(title: "save", onPressed: controller.changePassphrase),
+          const SizedBox(height: 20),
+          Divider(color: AppColors.fourth),
+          const SizedBox(height: 20),
+          Button(
+              title: ">> export passwords >>",
+              expanded: true,
+              onPressed: controller.exportData),
         ],
       ),
     );
