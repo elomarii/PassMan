@@ -25,6 +25,7 @@ class PassphraseController extends GetxController {
             style: TextStyle(color: AppColors.fifth),
             textAlign: TextAlign.center,
           ),
+          shape: const ContinuousRectangleBorder(),
           backgroundColor: AppColors.second,
         ),
       );

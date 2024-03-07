@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
             backgroundColor: AppColors.first,
             focusColor: AppColors.third,
             splashColor: AppColors.fourth,
-            child: const Text("add"),
+            child: Text("add", style: TextStyle(color: AppColors.fifth)),
           ),
           const SizedBox(width: 4),
           FloatingActionButton(
