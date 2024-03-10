@@ -8,6 +8,7 @@ import 'package:PassMan/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PassphraseController extends GetxController {
@@ -58,17 +59,14 @@ class PassphraseController extends GetxController {
     });
   }
 
-  /// Export all passwords as a file to Downloads
+  /// Export all passwords as a file to the app folder in local storage
   /// The created file is named `passwords.pman`
-  ///
-  /// Now: only implemented for android
-  /// TODO IOS implementation
   Future<void> exportData() async {
     bool success = false;
     try {
-      if (await Permission.manageExternalStorage.request().isGranted) {
-        String targetPath = "storage/emulated/0/Download/passwords.pman";
-        File targetFile = File(Directory(targetPath).absolute.path);
+      if (await Permission.storage.request().isGranted) {
+        String path = "${(await getDownloadsDirectory())!.path}/passwords.pman";
+        File targetFile = File(path);
         await passmanDb.query(passwordsTable).then((response) async {
           for (int i = 0; i < response.length; i++) {
             targetFile.writeAsStringSync(
@@ -78,14 +76,13 @@ class PassphraseController extends GetxController {
           }
         });
         success = true;
+      } else {
+        printError(info: "couldn't get permissions");
       }
     } on Exception catch (e) {
       e.printError();
     }
-    Get.showSnackbar(GetSnackBar(
-      message:
-          success ? "success -> exported to Downloads" : "operation failed",
-      duration: const Duration(seconds: 2),
-    ));
+    showSnackbar(
+        success ? "success > exported to app folder" : "operation failed");
   }
 }
