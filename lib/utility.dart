@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:PassMan/constants/globals.dart';
 import 'package:cryptography/cryptography.dart';
+import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:sqflite/utils/utils.dart';
 
@@ -46,4 +47,11 @@ Future<String> decrypt(String value, String salt, {String? secret}) async {
         SecretKey(HEX.decode(secret) + List.filled(32 - secret.length ~/ 2, 0)),
   );
   return utf8.decode(decrypted);
+}
+
+void showSnackbar(String message) {
+  Get.showSnackbar(GetSnackBar(
+    message: message,
+    duration: const Duration(seconds: 2),
+  ));
 }

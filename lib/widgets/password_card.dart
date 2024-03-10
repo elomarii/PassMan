@@ -1,5 +1,6 @@
 import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/routes/app_routes.dart';
+import 'package:PassMan/utility.dart';
 import 'package:cryptography/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,10 +71,7 @@ class _PasswordCardState extends State<PasswordCard> {
           InkWell(
             onTap: () {
               Clipboard.setData(ClipboardData(text: widget.value));
-              Get.showSnackbar(GetSnackBar(
-                message: "${widget.platform}'s password was copied!",
-                duration: const Duration(seconds: 2),
-              ));
+              showSnackbar("${widget.platform}'s password was copied!");
             },
             child: Icon(
               Icons.copy,
