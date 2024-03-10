@@ -15,7 +15,8 @@ PassMan employs AES-256 encryption in GCM (Galois/Counter Mode) to encrypt and p
 This encryption scheme is widely recognized for its strength and security, providing robust protection for stored passwords and information.
 
 ### Currently working on
-- [ ] Import/export encryption files
+- [x] export encrypted passwords as a file
+- [ ] import encryption files
 
 ---
 
