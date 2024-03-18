@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/constants/globals.dart';
 import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/utility.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,7 +27,7 @@ class AuthenticateController extends GetxController {
     if (passphrases.isNotEmpty) {
       isPassphraseSet = true;
       passphraseHash = passphrases[0]["hash"];
-      printInfo(info: "hash found: $passphraseHash");
+      printInfo(info: ">> Passphrases: $passphrases");
     }
     checkingDb.value = false;
   }
@@ -51,24 +49,14 @@ class AuthenticateController extends GetxController {
     String hashed = await computeHash(value);
     if (isPassphraseSet) {
       if (hashed == passphraseHash) {
-        printInfo(info: "Hashes match");
+        printInfo(info: ">> Hashes match");
         passphrase = HEX.encode(utf8.encode(value));
         Get.offAllNamed(AppRoutes.home);
       } else {
-        showDialog(
-          context: Get.context!,
-          builder: (_) => AlertDialog.adaptive(
-            content: Text(
-              "wrong passphrase!",
-              style: TextStyle(color: AppColors.fifth),
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: AppColors.second,
-          ),
-        );
+        showdialog("wrong passphrase !");
       }
     } else {
-      printInfo(info: "New passphrase setup");
+      printInfo(info: ">> New passphrase setup");
       passphrase = HEX.encode(utf8.encode(value));
       await passmanDb.rawInsert(
           'INSERT INTO $passphrasesTable(id, hash) VALUES(1, "$hashed")');

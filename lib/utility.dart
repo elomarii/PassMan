@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/constants/globals.dart';
 import 'package:cryptography/cryptography.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hex/hex.dart';
 import 'package:sqflite/utils/utils.dart';
@@ -54,4 +56,19 @@ void showSnackbar(String message) {
     message: message,
     duration: const Duration(seconds: 2),
   ));
+}
+
+void showdialog(String message) {
+  showDialog(
+    context: Get.context!,
+    builder: (_) => AlertDialog.adaptive(
+      content: Text(
+        message,
+        style: TextStyle(color: AppColors.fifth),
+        textAlign: TextAlign.center,
+      ),
+      shape: const ContinuousRectangleBorder(),
+      backgroundColor: AppColors.second,
+    ),
+  );
 }
