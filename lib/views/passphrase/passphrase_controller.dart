@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:PassMan/constants/colors.dart';
 import 'package:PassMan/constants/globals.dart';
 import 'package:PassMan/routes/app_routes.dart';
 import 'package:PassMan/utility.dart';
@@ -16,27 +15,16 @@ class PassphraseController extends GetxController {
   TextEditingController neu = TextEditingController();
 
   Future<void> changePassphrase() async {
-    String current = HEX.encode(utf8.encode(old.text));
-    if (current != passphrase) {
-      showDialog(
-        context: Get.context!,
-        builder: (_) => AlertDialog.adaptive(
-          content: Text(
-            "wrong passphrase!",
-            style: TextStyle(color: AppColors.fifth),
-            textAlign: TextAlign.center,
-          ),
-          shape: const ContinuousRectangleBorder(),
-          backgroundColor: AppColors.second,
-        ),
-      );
+    String given = HEX.encode(utf8.encode(old.text));
+    if (given != passphrase) {
+      showdialog("wrong passphrase !");
       return;
     }
 
     passphrase = HEX.encode(utf8.encode(neu.text));
-    String hash = await computeHash(passphrase!);
+    String hash = await computeHash(neu.text);
     await passmanDb.update(passphrasesTable, {"hash": hash}, where: "id = 1");
-    await encryptAll(current);
+    await encryptAll(given);
     Get.offAllNamed(AppRoutes.home);
   }
 
